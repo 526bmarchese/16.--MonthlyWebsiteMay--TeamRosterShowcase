@@ -1,0 +1,166 @@
+/* Custom Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Base Styles */
+:root {
+    --primary-color: #0d6efd;
+    --primary-dark: #0a58ca;
+    --secondary-color: #6c757d;
+    --accent-color: #ffc107;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+.hero-section {
+    background: linear-gradient(rgba(13, 110, 253, 0.9), rgba(10, 88, 202, 0.9)), url('https://source.unsplash.com/vTL_qy03D1I/1600x900') no-repeat center center;
+    background-size: cover;
+    padding: 5rem 0;
+}
+.navbar {
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark.bg-primary {
+    background-color: var(--primary-dark) !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+.player-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: none;
+}
+.player-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}.player-photo {
+    height: 230px;
+    object-fit: cover;
+    object-position: center top;
+}
+.card-title {
+    font-weight: 600;
+}
+.position-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    color: white;
+    background-color: var(--primary-color);
+}
+.badge-pos-P, .badge-pos-SP, .badge-pos-RP {
+    background-color: var(--danger-color);
+}
+
+.badge-pos-C {
+    background-color: #6610f2;
+}
+
+.badge-pos-1B, .badge-pos-2B, .badge-pos-3B, .badge-pos-SS {
+    background-color: var(--success-color);
+}
+
+.badge-pos-LF, .badge-pos-CF, .badge-pos-RF {
+    background-color: var(--primary-color);
+}
+
+.badge-pos-DH {
+    background-color: var(--accent-color);
+    color: var(--dark-color);
+}
+.roster-controls {
+    background-color: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+footer {
+    margin-top: 2rem;
+}
+
+footer a {
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+.btn {
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+@media (max-width: 767px) {
+    .hero-section {
+        padding: 3rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .player-photo {
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    h1.display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .display-1, .display-3, .display-4 {
+        font-size: calc(1.3rem + 2.1vw);
+    }
+    
+    .player-photo {
+        height: 180px;
+    }
+}
