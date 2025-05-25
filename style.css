@@ -41,16 +41,63 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     font-size: 1.5rem;
     letter-spacing: 0.5px;
 }
+
+/* Flip Card Styles */
 .player-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    perspective: 1000px;
+    height: 100%;
+    border-radius: 0.5rem;
+    overflow: visible;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.player-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.player-card:hover .player-card-inner {
+    transform: rotateY(180deg);
+}
+
+.player-card-front, .player-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     border-radius: 0.5rem;
     overflow: hidden;
-    border: none;
 }
-.player-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}.player-photo {
+
+.player-card-back {
+    background-color: var(--primary-color);
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.player-card-back h5 {
+    margin-bottom: 1rem;
+}
+
+.fun-fact-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 0 0.5rem;
+}
+
+.player-photo {
     height: 230px;
     object-fit: cover;
     object-position: center top;
@@ -163,4 +210,32 @@ footer a:hover {
     .player-photo {
         height: 180px;
     }
+}
+
+/* Team Page Styles */
+.player-card {
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.player-card:hover {
+    transform: translateY(-5px);
+}
+
+.player-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.modal-body img {
+    max-width: 200px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.special-role {
+    color: var(--accent-color);
+    font-weight: bold;
 }

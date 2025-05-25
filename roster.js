@@ -24,15 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
             col.className = columns;
 
             col.innerHTML = `
-                <div class="card h-100 shadow-sm player-card">
-                    <div class="position-relative">
-                        <img src="${p.photo}" alt="${p.firstName} ${p.lastName}" class="card-img-top player-photo">
-                        <div class="position-indicator badge-pos-${p.position}">${p.position}</div>
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="card-title mb-1">${p.firstName} ${p.lastName}</h5>
-                        <p class="mb-2 text-primary fw-bold">${getPositionName(p.position)}</p>
-                        <p class="small text-muted mb-0">Age: ${p.age}</p>
+                <div class="card h-100 player-card">
+                    <div class="player-card-inner">
+                        <div class="player-card-front">
+                            <div class="position-relative">
+                                <img src="${p.photo}" alt="${p.firstName} ${p.lastName}" class="card-img-top player-photo">
+                                <div class="position-indicator badge-pos-${p.position}">${p.position}</div>
+                            </div>
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">${p.firstName} ${p.lastName}</h5>
+                                <p class="mb-2 text-primary fw-bold">${getPositionName(p.position)}</p>
+                                <p class="small text-muted mb-0">Age: ${p.age}</p>
+                            </div>
+                        </div>
+                        <div class="player-card-back">
+                            <h5 class="card-title text-white">${p.firstName} ${p.lastName}</h5>
+                            <div class="fun-fact-container">
+                                <p class="fun-fact-text">"${p.funFact || 'Fun fact coming soon!'}"</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
