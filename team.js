@@ -1,44 +1,24 @@
-
-// Get positional text for display
-function getPositionName(pos) {
-    const positions = {
-        'P': 'Pitcher',
-        'SP': 'Starting Pitcher',
-        'RP': 'Relief Pitcher',
-        'C': 'Catcher',
-        '1B': 'First Baseman',
-        '2B': 'Second Baseman',
-        '3B': 'Third Baseman',
-        'SS': 'Shortstop',
-        'LF': 'Left Fielder',
-        'CF': 'Center Fielder',
-        'RF': 'Right Fielder',
-        'DH': 'Designated Hitter'
-    };
-    return positions[pos] || pos;
-}
-
-// Function to display players
-function displayPlayers() {
+// Function to display all players
+function render() {
     const container = document.getElementById('teamContainer');
     container.innerHTML = '';
     
     players.forEach(player => {
-        // Check if player has a special position
-        const isSpecial = player.position === 'RF' && player.lastName === 'Judge';  // Judge is team captain
+        // Create player's full name from firstName and lastName
         const fullName = `${player.firstName} ${player.lastName}`;
-        const position = getPositionName(player.position);
-        const role = isSpecial ? `${position} - Team Captain` : position;
+        
+        // Check if player is team captain (Aaron Judge)
+        const isCaptain = player.firstName === 'Aaron' && player.lastName === 'Judge';
         
         // Create the player card HTML
         container.innerHTML += `
-            <div class="col-md-4 col-lg-3">
-                <div class="card player-card">
-                    <img src="${player.photo}" class="player-image" alt="${fullName}">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="${player.photo}" class="card-img-top" alt="${fullName}">
                     <div class="card-body">
-                        <h5 class="card-title">${fullName}</h5>
-                        <p class="card-text ${isSpecial ? 'special-role' : ''}">${role}</p>
-                        <button class="btn btn-primary" onclick="showPlayerDetails('${player.lastName}')">
+                        <h5 class="card-title ${isCaptain ? 'text-primary' : ''}">${fullName}</h5>
+                        <p class="card-text">${player.position}</p>
+                        <button class="btn btn-info" onclick="showPlayerInfo('${player.firstName}', '${player.lastName}')">
                             More Info
                         </button>
                     </div>
@@ -48,22 +28,22 @@ function displayPlayers() {
     });
 }
 
-// Function to show player details in modal
-function showPlayerDetails(lastName) {
-    const player = players.find(p => p.lastName === lastName);
+// Function to show player info in modal
+function showPlayerInfo(firstName, lastName) {
+    const player = players.find(p => p.firstName === firstName && p.lastName === lastName);
     if (!player) return;
 
     const fullName = `${player.firstName} ${player.lastName}`;
-    const position = getPositionName(player.position);
 
     const modalBody = document.querySelector('.modal-body');
     modalBody.innerHTML = `
-        <img src="${player.photo}" alt="${fullName}" class="rounded">
-        <h4>${fullName}</h4>
-        <p class="mb-2">${position}</p>
-        <p class="text-muted">Age: ${player.age}</p>
-        <div class="alert alert-info">
-            ${player.funFact}
+        <div class="text-center">
+            <img src="${player.photo}" alt="${fullName}" class="rounded mb-3" style="max-width: 200px;">
+            <h4>${fullName}</h4>
+            <p class="text-muted">${player.position}</p>
+            <div class="alert alert-info">
+                Fun Fact: ${player.funFact}
+            </div>
         </div>
     `;
 
@@ -73,4 +53,4 @@ function showPlayerDetails(lastName) {
 }
 
 // Load players when the page loads
-document.addEventListener('DOMContentLoaded', displayPlayers);
+document.addEventListener('DOMContentLoaded', render);
