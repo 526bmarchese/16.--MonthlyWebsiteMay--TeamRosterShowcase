@@ -1,0 +1,57 @@
+.featured-player-card {
+    perspective: 1000px;
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+.featured-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.featured-player-card:hover .featured-card-inner {
+    transform: rotateY(180deg);
+}
+
+.featured-card-front, .featured-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.featured-card-front {
+    background-color: white;
+}
+
+.featured-card-back {
+    background-color: #0d6efd;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.featured-card-back h5 {
+    margin-bottom: 1rem;
+}
+
+.featured-card-back h6 {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.fun-fact-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}

@@ -1,24 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all necessary DOM elements
     const grid = document.getElementById('rosterGrid');
-    const featuredPlayersGrid = document.getElementById('featuredPlayers');
     const positionFilter = document.getElementById('positionFilter');
     const sortOrder = document.getElementById('sortOrder');
     const searchInput = document.getElementById('searchInput');
     const clearSearchBtn = document.getElementById('clearSearch');
-    
-    // Current filtered and sorted player list
+
     let currentPlayerList = [...players];
     const render = (list, targetElement = grid, columns = 'col-md-4 col-lg-3') => {
         if (!targetElement) return;
-        
+
         targetElement.innerHTML = '';
-        
+
         if (list.length === 0) {
             targetElement.innerHTML = '<div class="col-12 text-center py-5"><p class="lead">No players found matching your criteria.</p></div>';
             return;
         }
-        
+
         list.forEach(p => {
             const col = document.createElement('div');
             col.className = columns;
@@ -46,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-            
+
             targetElement.appendChild(col);
         });
     };
@@ -65,96 +62,140 @@ document.addEventListener('DOMContentLoaded', () => {
             'SP': 'Starting Pitcher',
             'RP': 'Relief Pitcher'
         };
-        
+
         return positions[posCode] || posCode;
     };
-    
+
+    // Filter players by their position
     const filterByPosition = (list, position) => {
-        if (position === 'All') return list;
+        if (position === 'All') {
+            return list;
+        }
         
-        // Handle pitcher categories (P, SP, RP)
         if (position === 'P') {
-            return list.filter(p => ['P', 'SP', 'RP'].includes(p.position));
+            const pitchers = [];
+            
+            // Loop through each player
+            for (let i = 0; i < list.length; i++) {
+                // Check if the player is any type of pitcher
+                if (list[i].position === 'P' || 
+                    list[i].position === 'SP' || 
+                    list[i].position === 'RP') {
+                    pitchers.push(list[i]);
+                }
+            }
+            return pitchers;
         }
         
-        return list.filter(p => p.position === position);
-    };const sortPlayers = (list, criterion) => {
-        const sortedList = [...list];
+        const filteredPlayers = [];
         
-        switch (criterion) {
-            case 'name':
-                return sortedList.sort((a, b) => {
-                    const nameA = `${a.lastName}, ${a.firstName}`.toLowerCase();
-                    const nameB = `${b.lastName}, ${b.firstName}`.toLowerCase();
-                    return nameA.localeCompare(nameB);
-                });
-            case 'age':
-                return sortedList.sort((a, b) => a.age - b.age);
-            case 'position':
-                return sortedList.sort((a, b) => a.position.localeCompare(b.position));
-            default:
-                return sortedList;
+        for (let i = 0; i < list.length; i++) {
+            // Check if the players position matches
+            if (list[i].position === position) {
+                filteredPlayers.push(list[i]);
+            }
         }
+        
+        return filteredPlayers;
     };
+    
+    // Sort players based on different criteria
+    const sortPlayers = (list, criterion) => {
+        // Create a copy of the list so we dont change the original
+        const sortedList = [];
+        for (let i = 0; i < list.length; i++) {
+            sortedList.push(list[i]);
+        }
+        
+        // Sort by name (last, first)
+        if (criterion === 'name') {
+            sortedList.sort(function(a, b) {
+                // Create full names in "lastName, firstName" format
+                const nameA = a.lastName + ", " + a.firstName;
+                const nameB = b.lastName + ", " + b.firstName;
+                
+                // Convert to lowercase 
+                const lowerA = nameA.toLowerCase();
+                const lowerB = nameB.toLowerCase();
+                
+                // Compare the names
+                if (lowerA < lowerB) return -1;
+                if (lowerA > lowerB) return 1;
+                return 0;
+            });
+        }
+        // Sort by age (youngest to oldest)
+        else if (criterion === 'age') {
+            sortedList.sort(function(a, b) {
+                return a.age - b.age;
+            });
+        }
+        // Sort by position code
+        else if (criterion === 'position') {
+            sortedList.sort(function(a, b) {
+                if (a.position < b.position) return -1;
+                if (a.position > b.position) return 1;
+                return 0;
+            });
+        }
+        
+        return sortedList;
+    };
+    // Search players by name
     const searchPlayers = (list, query) => {
-        if (!query) return list;
+        // If search is empty, return the full list
+        if (!query) {
+            return list;
+        }
         
         const searchTerm = query.toLowerCase();
-        return list.filter(p => {
-            const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
-            return fullName.includes(searchTerm);
-        });
+        
+        const matchingPlayers = [];
+        
+        for (let i = 0; i < list.length; i++) {
+            // Get the player's full name
+            const fullName = list[i].firstName + " " + list[i].lastName;
+            const fullNameLower = fullName.toLowerCase();
+            if (fullNameLower.includes(searchTerm)) {
+                matchingPlayers.push(list[i]);
+            }
+        }
+        
+        return matchingPlayers;
     };
-    
-    // Apply all filters and sorting
+
     const applyFilters = () => {
         const position = positionFilter ? positionFilter.value : 'All';
         const sort = sortOrder ? sortOrder.value : 'name';
         const search = searchInput ? searchInput.value : '';
-        
-        // Apply filters in sequence
         let filteredList = filterByPosition(players, position);
         filteredList = searchPlayers(filteredList, search);
         filteredList = sortPlayers(filteredList, sort);
-        
+
         currentPlayerList = filteredList;
         render(filteredList);
     };
-    
-    // Event listeners for filters
+
     if (positionFilter) {
         positionFilter.addEventListener('change', applyFilters);
     }
-    
+
     if (sortOrder) {
         sortOrder.addEventListener('change', applyFilters);
     }
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', applyFilters);
     }
-    
+
     if (clearSearchBtn) {
         clearSearchBtn.addEventListener('click', () => {
             searchInput.value = '';
             applyFilters();
         });
     }
-    
-    // Featured players for the home page
-    const renderFeaturedPlayers = () => {
-        if (!featuredPlayersGrid) return;
-        
-        // Select a few star players to feature
-        const featuredPlayersList = players
-            .filter(p => ['RF', 'SP', 'SS', 'CF'].includes(p.position))
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 4);
-            
-        render(featuredPlayersList, featuredPlayersGrid, 'col-md-6 col-lg-3');
-    };
+
     if (grid) {
         render(players);
     }
-    renderFeaturedPlayers();
 });
